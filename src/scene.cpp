@@ -75,8 +75,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     if(item = itemAt(event->scenePos(), QTransform())) {
         startDragging = event->scenePos(); // Позиция начала
-        relativePoint = QPointF(event->scenePos().x() - item->x(),
-                                event->scenePos().y() - item->y());
+//        relativePoint = QPointF(event->scenePos().x() - item->x(),
+//                                event->scenePos().y() - item->y());
+
+        relativePoint = item->mapFromScene(event->scenePos());
         // Сохранение позиции курсора относительно изображения
         qDebug() << "Pos saved";
     }
@@ -98,7 +100,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void Scene::startDrag(QPointF start)
 {
     QGraphicsPixmapItem *item = dynamic_cast<QGraphicsPixmapItem *>
-            (itemAt(start, QTransform())); // Получить теекущий элемент
+            (itemAt(start, QTransform())); // Получить текущий элемент
 
     QByteArray arr;
     QDataStream stream(&arr, QIODevice::WriteOnly);
@@ -109,10 +111,13 @@ void Scene::startDrag(QPointF start)
     data->setData("Picture", arr);
     drag->setMimeData(data);
     drag->setPixmap(item->pixmap());
-    drag->setHotSpot(QPoint(/*startDragging.x() - */item->pixmap().width()/2,
-                            /*startDragging.y() - */item->pixmap().height()/2));
+
+    relativePoint = item->mapFromScene(start);
+    drag->setHotSpot(QPoint(relativePoint.x(), relativePoint.y()));
 
     removeItem(item); // удалить картинку
+    internalMoving = true;
+
     drag->exec(Qt::MoveAction); // Начать выполнение Drag & Drop
 }
 
@@ -120,7 +125,7 @@ void Scene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     if(event->mimeData()->hasFormat("Picture")) {
         event->accept();
-        relativePoint = QPointF();
+//        relativePoint = QPointF();
     } else
         event->ignore();
 }
@@ -162,8 +167,14 @@ void Scene::dropEvent(QGraphicsSceneDragDropEvent *event)
 //                             event->scenePos().y() - relativePoint.y()));
 
         //if(relativePoint.isNull())
+        if (!internalMoving) {
             item->setPos(QPointF(event->scenePos().x() - pic.width()/2,
                                  event->scenePos().y() - pic.height()/2));
+        } else {
+            item->setPos(event->scenePos());
+            item->moveBy(-relativePoint.x(), -relativePoint.y());
+        }
+        internalMoving = false;
 //        else
 //            item->setPos(QPointF(event->scenePos().x() - relativePoint.x(),
 //                                 event->scenePos().y() - relativePoint.y()));

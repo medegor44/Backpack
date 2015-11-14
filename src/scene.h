@@ -37,6 +37,7 @@ private:
     bool mode; // Режим запуска
     bool save;
     bool result;
+    bool internalMoving;
 
     void startDrag(QPointF start);
     bool isInRange(QPointF point);
