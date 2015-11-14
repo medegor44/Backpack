@@ -2,6 +2,9 @@
 Thumbs.db
 ehthumbs.db
 
+# Qt Creator's files
+*.pro.user*
+
 # Folder config file
 Desktop.ini
 
