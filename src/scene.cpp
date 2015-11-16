@@ -4,7 +4,7 @@ Scene::Scene(const QRectF sceneRect, QObject *parent)
     : QGraphicsScene(sceneRect, parent)
 {
     save = false;
-    mode = false;
+    mode = false; // ??
 
     algorythms[0] = new NextFitAlgo(this);
     algorythms[1] = new BestFitAlgo(this);
@@ -70,49 +70,48 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsItem *item; // Графический элемент
+{/*
+    QGraphicsItem *item;
+    if((item = itemAt(event->scenePos(), QTransform()))) {
+        // Если существует элемент, на который кликнули
 
-    if(item = itemAt(event->scenePos(), QTransform())) {
-        startDragging = event->scenePos(); // Позиция начала
-//        relativePoint = QPointF(event->scenePos().x() - item->x(),
-//                                event->scenePos().y() - item->y());
+        startDragging = event->scenePos();
+        // Сохраняем позицию клика относительно сцены
 
-        relativePoint = item->mapFromScene(event->scenePos());
-        // Сохранение позиции курсора относительно изображения
-        qDebug() << "Pos saved";
-    }
+    }*/
+
+    qDebug() << "Scene's rectangle" << sceneRect();
 
     QGraphicsScene::mousePressEvent(event);
 }
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(itemAt(event->scenePos(), QTransform())) {
-        int dist = (event->scenePos() - startDragging).manhattanLength();
-        qDebug() << "dist =" << dist;
+    if(itemAt(event->scenePos(), QTransform()))
         startDrag(event->scenePos());
-    }
 
     QGraphicsScene::mouseMoveEvent(event);
 }
 
 void Scene::startDrag(QPointF start)
 {
-    QGraphicsPixmapItem *item = dynamic_cast<QGraphicsPixmapItem *>
-            (itemAt(start, QTransform())); // Получить текущий элемент
+    QGraphicsPixmapItem *item =
+            dynamic_cast<QGraphicsPixmapItem *> (itemAt(start, QTransform()));
 
-    QByteArray arr;
-    QDataStream stream(&arr, QIODevice::WriteOnly);
-    stream << item->pixmap(); // Запись изображения в массив байтов
+    QByteArray buffer;
+    QDataStream stream(&buffer, QIODevice::WriteOnly);
+    stream << item->pixmap(); // Сохраняем картинку в буфер
 
     QDrag *drag = new QDrag(this);
     QMimeData *data = new QMimeData();
-    data->setData("Picture", arr);
+
+    data->setData("Picture", buffer);
     drag->setMimeData(data);
     drag->setPixmap(item->pixmap());
 
     relativePoint = item->mapFromScene(start);
+
+    qDebug() << "Position at image:" << relativePoint;
     drag->setHotSpot(QPoint(relativePoint.x(), relativePoint.y()));
 
     removeItem(item); // удалить картинку
@@ -122,25 +121,25 @@ void Scene::startDrag(QPointF start)
 }
 
 void Scene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
-{
+{/*
     if(event->mimeData()->hasFormat("Picture")) {
         event->accept();
 //        relativePoint = QPointF();
     } else
-        event->ignore();
+        event->ignore();*/
+
+    QGraphicsScene::dragEnterEvent(event);
 }
 
-bool Scene::isInRange(QPointF point)
+bool Scene::isInRange(QPointF p)
 {
-    return !(point.x() < 0 || point.y() < 0) ||
-            (point.x() > width() || point.y() > height()); /*return false;*/
-    //return true;
+//    return !(point.x() < 0 || point.y() < 0) || !(point.x() > width() || point.y() > height());
+    return (p.x() >= 0 && p.y() >= 0 && p.x() < width() && p.y() < height());
 }
 
 void Scene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
-    if(event->mimeData()->hasFormat("Picture") &&
-            isInRange(event->scenePos())
+    if(event->mimeData()->hasFormat("Picture") && isInRange(event->scenePos())
             && !(itemAt(event->scenePos(), QTransform()))) {
         event->setDropAction(Qt::MoveAction);
         event->accept();
@@ -152,32 +151,24 @@ void Scene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 void Scene::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
     if(event->mimeData()->hasFormat("Picture")) {
-        QByteArray arr;
-        QDataStream stream(&arr, QIODevice::ReadOnly);
-        QPixmap pic;
+        QByteArray buffer;
+        QDataStream stream(&buffer, QIODevice::ReadOnly);
+        QPixmap picture;
 
-        arr = event->mimeData()->data("Picture");
-        stream >> pic;
+        buffer = event->mimeData()->data("Picture");
+        stream >> picture;
 
-        QGraphicsPixmapItem *item = addPixmap(pic);
+        QGraphicsPixmapItem *item = addPixmap(picture);
         item->setFlags(QGraphicsItem::ItemIsMovable);
 
-        qDebug() << "Pos:" << event->pos();
-//        item->setPos(QPointF(event->scenePos().x() - relativePoint.x(),
-//                             event->scenePos().y() - relativePoint.y()));
-
-        //if(relativePoint.isNull())
         if (!internalMoving) {
-            item->setPos(QPointF(event->scenePos().x() - pic.width()/2,
-                                 event->scenePos().y() - pic.height()/2));
+            item->setPos(QPointF(event->scenePos().x() - picture.width()/2,
+                                 event->scenePos().y() - picture.height()/2));
         } else {
             item->setPos(event->scenePos());
             item->moveBy(-relativePoint.x(), -relativePoint.y());
         }
         internalMoving = false;
-//        else
-//            item->setPos(QPointF(event->scenePos().x() - relativePoint.x(),
-//                                 event->scenePos().y() - relativePoint.y()));
         event->accept();
     } else
         event->ignore();

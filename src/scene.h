@@ -40,7 +40,7 @@ private:
     bool internalMoving;
 
     void startDrag(QPointF start);
-    bool isInRange(QPointF point);
+    bool isInRange(QPointF p);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
