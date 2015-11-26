@@ -37,8 +37,9 @@ Level *BestFitAlgo::getBestLevel(QGraphicsPixmapItem *item)
 
     for(Level *l : levels) {
         if(l->isPlaced(item) && (bestLevel == nullptr ||
-                                 l->score(item) < bestLevel->score(item)))
+                                 l->score(item) < bestLevel->score(item))) {
             bestLevel = l;
+        }
     }
 
     return bestLevel;

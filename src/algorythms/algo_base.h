@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <list>
 
 enum mode { StaticAtlas, MinimalAtlas };
 
@@ -16,7 +17,6 @@ protected:
     QList<QGraphicsPixmapItem *> textures;
     QList<QGraphicsPixmapItem *> blackList;
     mode m;
-    void sort();
 
 signals:
     void done(bool ok);

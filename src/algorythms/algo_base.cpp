@@ -2,6 +2,9 @@
 
 #include <algorithm>
 
+using std::begin;
+using std::end;
+
 AlgoBase::AlgoBase(QGraphicsScene *parent)
     : QObject(parent)
 {
@@ -14,25 +17,13 @@ void AlgoBase::saveImages(QList<QGraphicsItem *> items)
     for(QGraphicsItem *i : items)
         textures.push_back(dynamic_cast<QGraphicsPixmapItem *>(i));
 
-    std::sort(textures.begin(), textures.end(),
-              [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
-        return p->pixmap().height() > p1->pixmap().height();
-    });
-}
+//    textures.sort([](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
+//                return p->pixmap().height() > p1->pixmap().height();
+//            });
 
-
-void AlgoBase::sort()
-{
-    for(int i = 0; i < textures.size(); ++i) {
-        int maxIndex = i;
-        for(int j = i; j < textures.size(); ++j)
-            if(textures[j]->pixmap().height() > textures[maxIndex]->pixmap().height())
-                maxIndex = j;
-
-        QGraphicsPixmapItem *tmp = textures[i];
-        textures[i] = textures[maxIndex];
-        textures[maxIndex] = tmp;
-    }
+    std::sort(begin(textures), end(textures), [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
+                        return p->pixmap().height() > p1->pixmap().height();
+                    });
 }
 
 int AlgoBase::getMaxAtlasSide()
