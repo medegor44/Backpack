@@ -13,8 +13,8 @@ class AlgoBase : public QObject
 protected:
     QRectF atlasRect;
     QGraphicsScene *parent;
-    QList <QGraphicsPixmapItem *> textures;
-    QList <QGraphicsPixmapItem *> blackList;
+    QList<QGraphicsPixmapItem *> textures;
+    QList<QGraphicsPixmapItem *> blackList;
     mode m;
     void sort();
 

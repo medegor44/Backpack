@@ -1,5 +1,7 @@
 #include "algo_base.h"
 
+#include <algorithm>
+
 AlgoBase::AlgoBase(QGraphicsScene *parent)
     : QObject(parent)
 {
@@ -12,7 +14,10 @@ void AlgoBase::saveImages(QList<QGraphicsItem *> items)
     for(QGraphicsItem *i : items)
         textures.push_back(dynamic_cast<QGraphicsPixmapItem *>(i));
 
-    sort();
+    std::sort(textures.begin(), textures.end(),
+              [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
+        return p->pixmap().height() > p1->pixmap().height();
+    });
 }
 
 
