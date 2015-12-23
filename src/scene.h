@@ -18,6 +18,7 @@
 #include "algorythms/next_fit_algo.h"
 #include "algorythms/best_fit_algo.h"
 #include "algorythms/guillotine_algo.h"
+#include "algorythms/max_rects_algo.h"
 
 class Scene : public QGraphicsScene
 {
@@ -28,14 +29,18 @@ private:
     QPointF relativePoint;
     QRectF dropPlace;
 //    AlgoBase *algorythms[3];
-    AlgoBase *algorythms[3];
+    AlgoBase *algorythms[4];
 
-    int upperBound;
+    /*int upperBound;
     int lowerBound;
-    int middleBound; // Медиана
+    int middleBound;*/ // Медиана
 
-    bool mode; // Режим запуска
+    // Режим запуска (поиск минимального атласа или работа со статичным атласом)
+    bool mode;
+
+    // Режим сохранения изображения
     bool save;
+
     bool result;
     bool internalMoving;
 
@@ -62,11 +67,9 @@ public:
     Scene(const QRectF sceneRect, QObject *parent = 0);
     void drawBackground(QPainter *painter, const QRectF &rect);
     void startAlgorythm(int index);
-    void setUnsetSaveMode(bool m)
-    { save = m; }
+    void setUnsetSaveMode(bool m);
 
-    ~Scene()
-    { for(AlgoBase *a : algorythms) delete a;}
+    ~Scene();
 };
 
 #endif // SCENE

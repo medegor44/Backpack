@@ -9,6 +9,7 @@ Scene::Scene(const QRectF sceneRect, QObject *parent)
     algorythms[0] = new NextFitAlgo(this);
     algorythms[1] = new BestFitAlgo(this);
     algorythms[2] = new GuillotineAlgo(this);
+    algorythms[3] = new MaxRectsAlgo(this);
 
     for(AlgoBase *a : algorythms) {
         connect(a, SIGNAL(done(bool)), this, SLOT(changeSceneRect(bool)));
@@ -32,9 +33,20 @@ void Scene::startAlgorythm(int index)
     algorythms[index]->clearTexturesList(); // Очистка списка текстур в атласе
 }
 
+void Scene::setUnsetSaveMode(bool m)
+{
+    save = m;
+}
+
+Scene::~Scene()
+{
+    for(AlgoBase *a : algorythms)
+        delete a;
+}
+
 void Scene::changeSceneRect(bool res)
 {
-   if(!(result = res))
+    if(!(result = res))
        setSceneRect(0, 0, width() * 2, width() * 2);
 }
 
@@ -116,6 +128,8 @@ void Scene::startDrag(QPointF start)
 
     removeItem(item); // удалить картинку
     internalMoving = true;
+
+    update();
 
     drag->exec(Qt::MoveAction); // Начать выполнение Drag & Drop
 }

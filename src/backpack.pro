@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     algorythms/next_fit_algo.cpp \
     algorythms/algo_base.cpp \
     algorythms/best_fit_algo.cpp \
-    algorythms/guillotine_algo.cpp
+    algorythms/guillotine_algo.cpp \
+    algorythms/max_rects_algo.cpp
 
 HEADERS  += widget.h \
     scene.h \
@@ -30,6 +31,7 @@ HEADERS  += widget.h \
     algorythms/next_fit_algo.h \
     algorythms/algo_base.h \
     algorythms/best_fit_algo.h \
-    algorythms/guillotine_algo.h
+    algorythms/guillotine_algo.h \
+    algorythms/max_rects_algo.h
 
 RESOURCES +=

@@ -10,6 +10,8 @@ private:
 
 public:
     NextFitAlgo(QGraphicsScene *parent);
+
     virtual void start();
+
     ~NextFitAlgo(){}
 };

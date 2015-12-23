@@ -29,7 +29,7 @@ public:
     { this->m = m; }
 
     int getMaxAtlasSide();
-    void saveImages(QList <QGraphicsItem *> items);
+    void saveImages(QList<QGraphicsItem *> items);
 
     inline void clearTexturesList()
     { textures.clear(); }

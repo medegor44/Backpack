@@ -45,10 +45,8 @@ void ListWidget::dropEvent(QDropEvent *event)
 void ListWidget::addReturnedItems(QList<QGraphicsPixmapItem *> items)
 {
     if(!items.isEmpty())
-        foreach (QGraphicsPixmapItem *item, items) { // перебор всех элементов
-//            if(!isContain(item->pixmap()))
-                addImage(item->pixmap()); // если не содержится, то добавить
-//            else
+        for (QGraphicsPixmapItem *item : items) { // перебор всех элементов
+                addImage(item->pixmap());
                 items.removeOne(item);
         }
 }
@@ -88,11 +86,13 @@ void ListWidget::startDrag(Qt::DropActions supportedActions)
     QByteArray arr;
     QDataStream stream(&arr, QIODevice::WriteOnly);
     QListWidgetItem *item = currentItem(); // Взятие текущего элемента
-    QPixmap pic = qvariant_cast <QPixmap> (item->data(Qt::UserRole));
+
+    QPixmap pic = qvariant_cast<QPixmap> (item->data(Qt::UserRole));
     stream << pic; // запись изображения в массив байтов
 
     QDrag *drag = new QDrag(this);
     QMimeData *data = new QMimeData();
+
     data->setData("Picture", arr);
     drag->setMimeData(data);
     drag->setPixmap(pic); // установка картинки на курсор

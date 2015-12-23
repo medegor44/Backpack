@@ -66,6 +66,7 @@ void Widget::createLayouts()
     algorythmsBox->addItem("Next Fit");
     algorythmsBox->addItem("Best Fit");
     algorythmsBox->addItem("Guillotine");
+    algorythmsBox->addItem("MaxRects");
     layout->addWidget(algorythmsBox);
 
     button = new QPushButton("Упаковать изображения", this);
