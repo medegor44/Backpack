@@ -119,22 +119,37 @@ Rectangle MaxRectsAlgo::getBestRect(QRectF rect)
 
 void MaxRectsAlgo::intersectRects(QRectF rect)
 {
-    for (Rectangle r : rectangles) {
-        if (!r.intersects(rect))
-            continue;
+    QList<Rectangle> newRects;
+//    for (Rectangle r : rectangles) {
+//        if (!r.intersects(rect))
+//            continue;
 
-        QList<Rectangle> newRects = r - rect;
-        rectangles.removeOne(r);
-        rectangles.append(newRects);
-    }
+//         = r - rect;
+//        rectangles.removeOne(r);
+//        rectangles.append(newRects);
+//    }
+
+    for (auto i = rectangles.begin(); i != rectangles.end(); )
+        if (i->intersects(rect)) {
+            newRects.append((*i) - rect);
+            i = rectangles.erase(i);
+        } else
+            i++;
+
+    rectangles.append(newRects);
 }
 
 void MaxRectsAlgo::makeUnique()
 {
-//    for (auto i = rectangles.begin(); i != rectangles.end(); ++i)
+//    for (int i = 0; i < rectangles.size(); i++)
+//        for (int j = i + 1; j < rectangles.size(); j++)
+//            if (rectangles[i].contains(rectangles[j]))
+//                rectangles.removeAt(j);
 
-    for (int i = 0; i < rectangles.size(); i++)
-        for (int j = i + 1; j < rectangles.size(); j++)
-            if (rectangles[i].contains(rectangles[j]))
-                rectangles.removeAt(j);
+    for (auto i = rectangles.begin(); i != rectangles.end(); ++i)
+        for (auto j = i + 1; j != rectangles.end(); )
+            if (i->contains(*j))
+                j = rectangles.erase(j);
+            else
+                j++;
 }
