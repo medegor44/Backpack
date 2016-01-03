@@ -27,6 +27,8 @@ QList<Rectangle> operator-(const Rectangle &rect1, const Rectangle &rect2);
 
 class MaxRectsAlgo : public AlgoBase
 {
+    Q_OBJECT
+
 public:
     MaxRectsAlgo(QGraphicsScene *parent);
     void start() override;

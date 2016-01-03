@@ -87,6 +87,12 @@ void MaxRectsAlgo::start()
         Rectangle bestRect = getBestRect((*i)->pixmap().rect());
 
         if (bestRect.isNull()) {
+            if (m == mode::MinimalAtlas) {
+                rectangles.clear();
+                emit done(false);
+                return;
+            }
+
             blackList.push_back(*i);
             parent->removeItem(*i);
         } else {
@@ -100,7 +106,11 @@ void MaxRectsAlgo::start()
     }
 
     rectangles.clear();
-    emit done(blackList);
+
+    if (m == mode::MinimalAtlas)
+        emit done(true);
+    else
+        emit done(blackList);
 }
 
 Rectangle MaxRectsAlgo::getBestRect(QRectF rect)
