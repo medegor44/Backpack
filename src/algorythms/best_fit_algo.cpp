@@ -49,6 +49,7 @@ void BestFitAlgo::reset()
 {
     for(Level *l : levels) delete l;
     levels.clear();
+    textures.clear();
     blackList.clear();
 }
 

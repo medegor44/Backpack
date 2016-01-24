@@ -111,6 +111,8 @@ void GuillotineAlgo::reset()
         delete r;
 
     rects.clear();
+    blackList.clear();
+    textures.clear();
 
     //textures.clear();
 }

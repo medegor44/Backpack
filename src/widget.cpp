@@ -30,9 +30,10 @@ void Widget::save()
 
     QList<QGraphicsItem *> items = scene->items();
 
-    QString coordsName = name.replace(name.lastIndexOf('.'),
-                                      name.length() - name.lastIndexOf('.'),
-                                      ".txt");
+    QString coordsName = name;
+    coordsName.replace(coordsName.lastIndexOf('.'),
+                       coordsName.length() - coordsName.lastIndexOf('.'),
+                       ".txt");
 
     QFile f(coordsName);
     f.open(QIODevice::WriteOnly);

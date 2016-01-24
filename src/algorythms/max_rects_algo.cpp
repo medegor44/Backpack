@@ -111,6 +111,9 @@ void MaxRectsAlgo::start()
         emit done(true);
     else
         emit done(blackList);
+
+    blackList.clear();
+    textures.clear();
 }
 
 Rectangle MaxRectsAlgo::getBestRect(QRectF rect)
@@ -130,14 +133,6 @@ Rectangle MaxRectsAlgo::getBestRect(QRectF rect)
 void MaxRectsAlgo::intersectRects(QRectF rect)
 {
     QList<Rectangle> newRects;
-//    for (Rectangle r : rectangles) {
-//        if (!r.intersects(rect))
-//            continue;
-
-//         = r - rect;
-//        rectangles.removeOne(r);
-//        rectangles.append(newRects);
-//    }
 
     for (auto i = rectangles.begin(); i != rectangles.end(); )
         if (i->intersects(rect)) {

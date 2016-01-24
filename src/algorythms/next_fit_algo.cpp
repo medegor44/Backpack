@@ -10,6 +10,7 @@ void NextFitAlgo::reset()
 {
     currentPos = QPointF();
     blackList.clear();
+    textures.clear();
 }
 
 void NextFitAlgo::start()
