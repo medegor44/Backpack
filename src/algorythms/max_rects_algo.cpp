@@ -88,7 +88,7 @@ void MaxRectsAlgo::start()
 
         if (bestRect.isNull()) {
             if (m == mode::MinimalAtlas) {
-                rectangles.clear();
+                reset();
                 emit done(false);
                 return;
             }
@@ -105,15 +105,14 @@ void MaxRectsAlgo::start()
         }
     }
 
-    rectangles.clear();
+//    rectangles.clear();
 
     if (m == mode::MinimalAtlas)
         emit done(true);
     else
         emit done(blackList);
 
-    blackList.clear();
-    textures.clear();
+    reset();
 }
 
 Rectangle MaxRectsAlgo::getBestRect(QRectF rect)
@@ -157,4 +156,11 @@ void MaxRectsAlgo::makeUnique()
                 j = rectangles.erase(j);
             else
                 j++;
+}
+
+void MaxRectsAlgo::reset()
+{
+    rectangles.clear();
+    blackList.clear();
+//    textures.clear();
 }

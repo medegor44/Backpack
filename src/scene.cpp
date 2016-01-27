@@ -25,8 +25,9 @@ void Scene::startAlgorythm(int index)
 
     if(mode) { // Поиск минимального атласа
         setSceneRect(0, 0, 2, 2);
-        while(!result)
+        while(!result) {
             algorythms[index]->start();
+        }
     } else // Работа со статичным атласом
         algorythms[index]->start();
 

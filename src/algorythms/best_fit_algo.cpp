@@ -47,9 +47,10 @@ Level *BestFitAlgo::getBestLevel(QGraphicsPixmapItem *item)
 
 void BestFitAlgo::reset()
 {
-    for(Level *l : levels) delete l;
+    for(Level *l : levels)
+        delete l;
     levels.clear();
-    textures.clear();
+//    textures.clear();
     blackList.clear();
 }
 

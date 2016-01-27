@@ -37,6 +37,7 @@ private:
     Rectangle getBestRect(QRectF rect);
     void intersectRects(QRectF rect);
     void makeUnique();
+    void reset();
     QList<Rectangle> rectangles;
 };
 
