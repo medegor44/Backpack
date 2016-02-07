@@ -18,6 +18,10 @@
 #include <QCheckBox>
 #include <QLabel>
 
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+
 #include <QDebug>
 
 #include "scene.h"
@@ -49,6 +53,8 @@ private:
 
     void createLayouts();
     void createMenu();
+
+    bool writeCoords(QString path, QList<QGraphicsItem *> &items);
 
 private slots:
     void open();

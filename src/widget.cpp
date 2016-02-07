@@ -33,25 +33,26 @@ void Widget::save()
     QString coordsName = name;
     coordsName.replace(coordsName.lastIndexOf('.'),
                        coordsName.length() - coordsName.lastIndexOf('.'),
-                       ".txt");
+                       ".json");
 
-    QFile f(coordsName);
-    f.open(QIODevice::WriteOnly);
+    writeCoords(coordsName, items);
+//    QFile f(coordsName);
+//    f.open(QIODevice::WriteOnly);
 
-    QTextStream out(&f);
+//    QTextStream out(&f);
 
-    QString format("x = %1, y = %2, w = %3, h = %4\n");
+//    QString format("x = %1, y = %2, w = %3, h = %4\n");
 
-    for (auto i : items) {
-        QGraphicsPixmapItem *pix = dynamic_cast<QGraphicsPixmapItem *>(i);
-        out << format.arg(pix->x()).arg(pix->y())
-               .arg(pix->pixmap().width())
-               .arg(pix->pixmap().height());
-    }
+//    for (auto i : items) {
+//        QGraphicsPixmapItem *pix = dynamic_cast<QGraphicsPixmapItem *>(i);
+//        out << format.arg(pix->x()).arg(pix->y())
+//               .arg(pix->pixmap().width())
+//               .arg(pix->pixmap().height());
+//    }
 
 
-    if(img.save(name))
-        qDebug() << "Yes";
+    if(!img.save(name))
+        qWarning() << "Error in writing image";
 
     scene->setUnsetSaveMode(false);
 }
@@ -122,11 +123,42 @@ void Widget::createMenu()
     mainLayout->setMenuBar(mainMenuBar);
 }
 
+bool Widget::writeCoords(QString path, QList<QGraphicsItem *> &items)
+{
+    QJsonObject textures;
+    QJsonArray coords;
+
+    QFile json(path);
+    if (!json.open(QIODevice::WriteOnly)) {
+        qWarning() << "Error in writing file!";
+        return false;
+    }
+
+    for (auto item : items) {
+        QJsonObject texture;
+        QGraphicsPixmapItem *pix = dynamic_cast<QGraphicsPixmapItem *> (item);
+        texture["x"] = item->x();
+        texture["y"] = item->y();
+        texture["width"] = pix->pixmap().width();
+        texture["height"] = pix->pixmap().height();
+
+        coords.append(texture);
+    }
+
+    textures["Coordinates"] = coords;
+
+    QJsonDocument doc(textures);
+    json.write(doc.toJson());
+
+    return true;
+}
+
 void Widget::showAbout()
 {
     QMessageBox::information(this, "О программе",
                              "Backpack 1.0\nРазработчик: Медведев Егор");
 }
+
 void Widget::open()
 // открытие папки с изображениями
 {

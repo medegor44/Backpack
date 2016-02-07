@@ -12,6 +12,7 @@ TARGET = backpack
 TEMPLATE = app
 CONFIG += C++11
 
+QT += opengl
 
 SOURCES += main.cpp\
         widget.cpp \
