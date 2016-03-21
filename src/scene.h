@@ -28,14 +28,8 @@ private:
     QPointF startDragging;
     QPointF relativePoint;
     QRectF dropPlace;
-//    AlgoBase *algorythms[3];
     AlgoBase *algorythms[4];
 
-    /*int upperBound;
-    int lowerBound;
-    int middleBound;*/ // Медиана
-
-    // Режим запуска (поиск минимального атласа или работа со статичным атласом)
     bool mode;
 
     // Режим сохранения изображения

@@ -81,6 +81,11 @@ MaxRectsAlgo::MaxRectsAlgo(QGraphicsScene *parent)
 void MaxRectsAlgo::start()
 {
     atlasRect = parent->sceneRect();
+    std::sort(textures.begin(), textures.end(),
+              [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
+        return p->pixmap().height() > p1->pixmap().height();
+    });
+
     rectangles.push_back(atlasRect);
 
     for (auto i = textures.begin(); i != textures.end(); ++i) {

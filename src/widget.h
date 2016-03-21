@@ -28,6 +28,9 @@
 #include "listwidget.h"
 #include "createnewdialog.h"
 
+#ifdef bool
+    #undef bool
+#endif
 class Widget : public QWidget
 {
     Q_OBJECT

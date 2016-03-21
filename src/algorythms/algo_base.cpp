@@ -21,9 +21,9 @@ void AlgoBase::saveImages(QList<QGraphicsItem *> items)
 //                return p->pixmap().height() > p1->pixmap().height();
 //            });
 
-    std::sort(begin(textures), end(textures), [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
-                        return p->pixmap().height() > p1->pixmap().height();
-                    });
+//    std::sort(begin(textures), end(textures), [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
+//                        return p->pixmap().height() > p1->pixmap().height();
+//                    });
 }
 
 int AlgoBase::getMaxAtlasSide()

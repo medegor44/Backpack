@@ -1,4 +1,7 @@
 #include <QApplication>
+#ifdef bool
+    #undef bool
+#endif
 #include "widget.h"
 
 int main(int argc, char *argv[])

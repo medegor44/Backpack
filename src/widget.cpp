@@ -36,20 +36,6 @@ void Widget::save()
                        ".json");
 
     writeCoords(coordsName, items);
-//    QFile f(coordsName);
-//    f.open(QIODevice::WriteOnly);
-
-//    QTextStream out(&f);
-
-//    QString format("x = %1, y = %2, w = %3, h = %4\n");
-
-//    for (auto i : items) {
-//        QGraphicsPixmapItem *pix = dynamic_cast<QGraphicsPixmapItem *>(i);
-//        out << format.arg(pix->x()).arg(pix->y())
-//               .arg(pix->pixmap().width())
-//               .arg(pix->pixmap().height());
-//    }
-
 
     if(!img.save(name))
         qWarning() << "Error in writing image";

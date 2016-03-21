@@ -5,6 +5,9 @@ ehthumbs.db
 # Qt Creator's files
 *.pro.user*
 
+#Build files
+/build-backpack-Desktop_Qt_5_6_0_MinGW_32bit-Debug/*
+
 # Folder config file
 Desktop.ini
 

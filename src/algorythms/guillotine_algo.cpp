@@ -78,6 +78,10 @@ Rect *GuillotineAlgo::getBestRect(QGraphicsPixmapItem *item)
 void GuillotineAlgo::start()
 {
     atlasRect = parent->sceneRect();
+    std::sort(textures.begin(), textures.end(),
+              [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
+        return p->pixmap().height() > p1->pixmap().height();
+    });
     rects.push_back(new Rect(atlasRect));
 
     for(auto it = textures.begin(); it != textures.end(); ++it) {

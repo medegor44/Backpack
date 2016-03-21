@@ -57,6 +57,10 @@ void BestFitAlgo::reset()
 void BestFitAlgo::start()
 {
     atlasRect = parent->sceneRect();
+    std::sort(textures.begin(), textures.end(),
+              [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
+        return p->pixmap().height() > p1->pixmap().height();
+    });
 
     for(auto it = textures.begin(); it != textures.end(); ++it) {
         Level *bestLevel = getBestLevel(*it);
