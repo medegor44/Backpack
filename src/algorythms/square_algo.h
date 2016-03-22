@@ -20,6 +20,7 @@ private:
     bool isIntersects(QRectF rect);
     void removeUsedPoints(QRectF rect);
     void addNewNodes(QRectF rect);
+    void reset();
     bool addToAtlas(QGraphicsPixmapItem *item);
 };
 

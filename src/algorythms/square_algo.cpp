@@ -14,6 +14,9 @@ QRectF SquareAlgo::computeRect(QPointF p, QRectF pictureRect)
     if (distFromOX >= atlasRect.width() ||distFromOY >= atlasRect.height())
         return QRectF(-1, -1, 0, 0);
 
+    if (distFromOX <= boundingRect.width() && distFromOY <= boundingRect.height())
+        return boundingRect;
+
     if (distFromOX > newBoundingRect.width())
         newBoundingRect.setRight(distFromOX);
     if (distFromOY > newBoundingRect.height())
@@ -25,6 +28,7 @@ QRectF SquareAlgo::computeRect(QPointF p, QRectF pictureRect)
 QPointF SquareAlgo::getBestPos(QRectF pictureRect)
 {
     QRectF bestRect = computeRect(nodes.first(), pictureRect);
+//    QRectF oldRect = boundingRect;
     QPointF bestPoint = nodes.first();
 
     for (QPointF p : nodes) {
@@ -34,7 +38,7 @@ QPointF SquareAlgo::getBestPos(QRectF pictureRect)
         if (rect.isNull() || isIntersects(pictureRect))
             continue;
 
-        if (abs(rect.width() - rect.height()) <= abs(bestRect.width() - bestRect.height()) || bestRect.isNull()) {
+        if (abs(rect.width() - rect.height()) < abs(bestRect.width() - bestRect.height()) || bestRect.isNull() || bestRect == boundingRect) {
             bestRect = rect;
             bestPoint = p;
         }
@@ -67,19 +71,17 @@ void SquareAlgo::addNewNodes(QRectF rect)
     QPointF p1 = rect.topRight();
     QPointF p2 = rect.bottomLeft();
 
-    p1.ry()--;
-    p2.rx()--;
-
-    if (parent->itemAt(p1, QTransform()) != nullptr || p1.y() < 0) {
-        p1.ry()++;
-        p1.rx()++;
+    if (parent->itemAt(QPointF(p1.x(), p1.y() - 1), QTransform()) != nullptr || p1.y() == 0)
         nodes.push_back(p1);
-    }
-    if (parent->itemAt(p2, QTransform()) != nullptr || p2.x() < 0) {
-        p2.rx()++;
-        p2.ry()++;
+    if (parent->itemAt(QPointF(p2.x() - 1, p2.y()), QTransform()) != nullptr || p2.x() == 0)
         nodes.push_back(p2);
-    }
+}
+
+void SquareAlgo::reset()
+{
+    nodes.clear();
+    usedRectngles.clear();
+    blackList.clear();
 }
 
 bool SquareAlgo::addToAtlas(QGraphicsPixmapItem *item)
@@ -119,4 +121,7 @@ void SquareAlgo::start()
             blackList.push_back(picture);
         }
     }
+
+    emit done(blackList);
+    reset();
 }
