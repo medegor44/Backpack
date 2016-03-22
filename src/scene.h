@@ -19,6 +19,7 @@
 #include "algorythms/best_fit_algo.h"
 #include "algorythms/guillotine_algo.h"
 #include "algorythms/max_rects_algo.h"
+#include "algorythms/square_algo.h"
 
 class Scene : public QGraphicsScene
 {

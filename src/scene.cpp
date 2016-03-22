@@ -6,7 +6,7 @@ Scene::Scene(const QRectF sceneRect, QObject *parent)
     save = false;
     mode = false; // ??
 
-    algorythms[0] = new NextFitAlgo(this);
+    algorythms[0] = new SquareAlgo(this);
     algorythms[1] = new BestFitAlgo(this);
     algorythms[2] = new GuillotineAlgo(this);
     algorythms[3] = new MaxRectsAlgo(this);

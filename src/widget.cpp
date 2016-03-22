@@ -17,7 +17,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 }
 
 void Widget::save()
-// Сохранение зображения
+// Сохранение изображения
 {
     QImage img(scene->width(), scene->height(), QImage::Format_ARGB32);
     QPainter painter(&img);

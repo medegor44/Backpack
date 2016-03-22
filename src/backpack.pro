@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     algorythms/algo_base.cpp \
     algorythms/best_fit_algo.cpp \
     algorythms/guillotine_algo.cpp \
-    algorythms/max_rects_algo.cpp
+    algorythms/max_rects_algo.cpp \
+    algorythms/square_algo.cpp
 
 HEADERS  += widget.h \
     scene.h \
@@ -33,6 +34,7 @@ HEADERS  += widget.h \
     algorythms/algo_base.h \
     algorythms/best_fit_algo.h \
     algorythms/guillotine_algo.h \
-    algorythms/max_rects_algo.h
+    algorythms/max_rects_algo.h \
+    algorythms/square_algo.h
 
 RESOURCES +=
