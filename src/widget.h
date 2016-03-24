@@ -47,7 +47,7 @@ private:
     QHBoxLayout *mainLayout;
     QVBoxLayout *layout;
     QMenuBar *mainMenuBar;
-    QComboBox *algorythmsBox;
+    QComboBox *algorithmsBox;
     QCheckBox *checkBox;
     QMenu *fileMenu;
     QMenu *algorythms;

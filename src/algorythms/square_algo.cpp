@@ -27,12 +27,9 @@ QRectF SquareAlgo::computeRect(QPointF p, QRectF pictureRect)
 
 QPointF SquareAlgo::getBestPos(QRectF pictureRect)
 {
-    QRectF bestRect = computeRect(nodes.first(), pictureRect);
-//    QRectF oldRect = boundingRect;
-    QPointF bestPoint = nodes.first();
+    QRectF bestRect;
 
-    /* Ошибка в том, что мы выбираем первую попавшуюся позицию, несмотря на тот,
-     * факт, что прямоугольник в этой позиции может пересекать другие */
+    QPointF bestPoint(-1, -1);
     for (QPointF p : nodes) {
         QRectF rect = computeRect(p, pictureRect);
         pictureRect.moveTo(p);
@@ -40,14 +37,12 @@ QPointF SquareAlgo::getBestPos(QRectF pictureRect)
         if (rect.isNull() || isIntersects(pictureRect))
             continue;
 
-        if (abs(rect.width() - rect.height()) < abs(bestRect.width() - bestRect.height()) || bestRect.isNull() || bestRect == boundingRect) {
+        if (abs(rect.width() - rect.height()) < abs(bestRect.width() - bestRect.height())
+                || bestRect.isNull() || bestRect == boundingRect || bestPoint.x() < 0) {
             bestRect = rect;
             bestPoint = p;
         }
     }
-
-    if (bestRect.isNull())
-        return QPointF(-1, -1);
 
     return bestPoint;
 }

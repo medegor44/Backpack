@@ -45,7 +45,7 @@ void Widget::save()
 
 void Widget::startAlgo()
 {
-    scene->startAlgorythm(algorythmsBox->currentIndex());
+    scene->startAlgorythm(algorithmsBox->currentIndex());
     atlasSize->setText("Размер атласа: " + QString::number(scene->width()) +
                        " x " + QString::number(scene->height()));
 }
@@ -70,12 +70,13 @@ void Widget::createLayouts()
     checkBox = new QCheckBox("Минимальный атлас", this);
     layout->addWidget(checkBox);
 
-    algorythmsBox = new QComboBox(this);
-    algorythmsBox->addItem("Next Fit");
-    algorythmsBox->addItem("Best Fit");
-    algorythmsBox->addItem("Guillotine");
-    algorythmsBox->addItem("MaxRects");
-    layout->addWidget(algorythmsBox);
+    algorithmsBox = new QComboBox(this);
+    algorithmsBox->addItem("Next Fit");
+    algorithmsBox->addItem("Best Fit");
+    algorithmsBox->addItem("Guillotine");
+    algorithmsBox->addItem("MaxRects");
+    algorithmsBox->addItem("Square");
+    layout->addWidget(algorithmsBox);
 
     button = new QPushButton("Упаковать изображения", this);
     layout->addWidget(button);

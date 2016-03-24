@@ -6,12 +6,13 @@ Scene::Scene(const QRectF sceneRect, QObject *parent)
     save = false;
     mode = false; // ??
 
-    algorythms[0] = new SquareAlgo(this);
-    algorythms[1] = new BestFitAlgo(this);
-    algorythms[2] = new GuillotineAlgo(this);
-    algorythms[3] = new MaxRectsAlgo(this);
+    algorithms[0] = new NextFitAlgo(this);
+    algorithms[1] = new BestFitAlgo(this);
+    algorithms[2] = new GuillotineAlgo(this);
+    algorithms[3] = new MaxRectsAlgo(this);
+    algorithms[4] = new SquareAlgo(this);
 
-    for(AlgoBase *a : algorythms) {
+    for(AlgoBase *a : algorithms) {
         connect(a, SIGNAL(done(bool)), this, SLOT(changeSceneRect(bool)));
         connect(a, SIGNAL(done(QList<QGraphicsPixmapItem*>)),
                 this, SIGNAL(finished(QList<QGraphicsPixmapItem*>)));
@@ -20,18 +21,18 @@ Scene::Scene(const QRectF sceneRect, QObject *parent)
 
 void Scene::startAlgorythm(int index)
 {
-    algorythms[index]->saveImages(items()); // Сохраниить изображения в алгоритм
+    algorithms[index]->saveImages(items()); // Сохраниить изображения в алгоритм
     result = false;
 
     if(mode) { // Поиск минимального атласа
         setSceneRect(0, 0, 2, 2);
         while(!result) {
-            algorythms[index]->start();
+            algorithms[index]->start();
         }
     } else // Работа со статичным атласом
-        algorythms[index]->start();
+        algorithms[index]->start();
 
-    algorythms[index]->clearTexturesList(); // Очистка списка текстур в атласе
+    algorithms[index]->clearTexturesList(); // Очистка списка текстур в атласе
 }
 
 void Scene::setUnsetSaveMode(bool m)
@@ -41,7 +42,7 @@ void Scene::setUnsetSaveMode(bool m)
 
 Scene::~Scene()
 {
-    for(AlgoBase *a : algorythms)
+    for(AlgoBase *a : algorithms)
         delete a;
 }
 
@@ -57,14 +58,14 @@ void Scene::setMode(int m)
     case 0: // Статичный атлас
         mode = false;
 
-        for(AlgoBase *a : algorythms)
+        for(AlgoBase *a : algorithms)
             a->setMode(::mode::StaticAtlas);
 
         break;
     case 2: // Динамический
         mode = true;
 
-        for(AlgoBase *a : algorythms)
+        for(AlgoBase *a : algorithms)
             a->setMode(::mode::MinimalAtlas);
 
         break;

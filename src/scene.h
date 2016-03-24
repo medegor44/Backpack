@@ -29,7 +29,7 @@ private:
     QPointF startDragging;
     QPointF relativePoint;
     QRectF dropPlace;
-    AlgoBase *algorythms[4];
+    AlgoBase *algorithms[5];
 
     bool mode;
 
