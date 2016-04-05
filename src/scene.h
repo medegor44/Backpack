@@ -26,10 +26,12 @@ class Scene : public QGraphicsScene
     Q_OBJECT
 
 private:
+    const int alogoCount = 5;
     QPointF startDragging;
     QPointF relativePoint;
     QRectF dropPlace;
     AlgoBase *algorithms[5];
+
 
     bool mode;
 
@@ -50,7 +52,7 @@ protected:
     void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 signals:
-    void finished(QList<QGraphicsPixmapItem *>blackList);
+    void returnItems(QList<QGraphicsPixmapItem *>blackList);
 
 public slots:
     void setMode(int m);
@@ -63,6 +65,7 @@ public:
     void drawBackground(QPainter *painter, const QRectF &rect);
     void startAlgorythm(int index);
     void setUnsetSaveMode(bool m);
+    void clearTextures();
 
     ~Scene();
 };

@@ -36,7 +36,7 @@ void CreateNewdialog::clear()
 QRectF CreateNewdialog::getSize()
 {
     int w = widthSize->text().toInt();
-    int h = widthSize->text().toInt();
+    int h = heightSize->text().toInt();
 
     if(w > 0 && h > 0)
         return QRectF(0, 0, w, h);

@@ -42,8 +42,10 @@ private:
 
     QLabel *atlasSize;
     QGraphicsView *view;
-    QPushButton *button;
+    QPushButton *startAlogButton;
     QPushButton *addAll;
+    QPushButton *clearButton;
+    QPushButton *removeButton;
     QHBoxLayout *mainLayout;
     QVBoxLayout *layout;
     QMenuBar *mainMenuBar;
@@ -61,6 +63,8 @@ private:
 
 private slots:
     void open();
+    void clearAtlas();
+    void removeTextures();
     void createNewImage();
     void addAllImages();
     void save();

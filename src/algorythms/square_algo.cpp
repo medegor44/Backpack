@@ -37,7 +37,7 @@ QPointF SquareAlgo::getBestPos(QRectF pictureRect)
         if (rect.isNull() || isIntersects(pictureRect))
             continue;
 
-        if (abs(rect.width() - rect.height()) < abs(bestRect.width() - bestRect.height())
+        if (abs(rect.width() - rect.height()) <= abs(bestRect.width() - bestRect.height())
                 || bestRect.isNull() || bestRect == boundingRect || bestPoint.x() < 0) {
             bestRect = rect;
             bestPoint = p;

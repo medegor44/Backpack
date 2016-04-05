@@ -10,10 +10,12 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 
     connect(checkBox, SIGNAL(stateChanged(int)), scene, SLOT(setMode(int)));
     connect(dialog, SIGNAL(accepted()), this, SLOT(createNewImage()));
-    connect(button, SIGNAL(clicked()), this, SLOT(startAlgo()));
+    connect(startAlogButton, SIGNAL(clicked()), this, SLOT(startAlgo()));
     connect(addAll, SIGNAL(clicked()), this, SLOT(addAllImages()));
-    connect(scene, SIGNAL(finished(QList<QGraphicsPixmapItem*>)),
+    connect(scene, SIGNAL(returnItems(QList<QGraphicsPixmapItem*>)),
             listWidget, SLOT(addReturnedItems(QList<QGraphicsPixmapItem*>)));
+    connect(clearButton, SIGNAL(clicked(bool)), this, SLOT(clearAtlas()));
+    connect(removeButton, SIGNAL(clicked(bool)), this, SLOT(removeTextures()));
 }
 
 void Widget::save()
@@ -78,10 +80,14 @@ void Widget::createLayouts()
     algorithmsBox->addItem("Square");
     layout->addWidget(algorithmsBox);
 
-    button = new QPushButton("Упаковать изображения", this);
-    layout->addWidget(button);
+    startAlogButton = new QPushButton("Упаковать изображения", this);
+    layout->addWidget(startAlogButton);
     addAll = new QPushButton("Упаковать все изображения", this);
     layout->addWidget(addAll);
+    clearButton = new QPushButton("Очистить атлас", this);
+    layout->addWidget(clearButton);
+    removeButton = new QPushButton("Удалить текстуры", this);
+    layout->addWidget(removeButton);
 
     mainLayout->addLayout(layout);
     setLayout(mainLayout);
@@ -163,6 +169,18 @@ void Widget::open()
             // добавление изображения в контейнер
         }
     }
+}
+
+void Widget::clearAtlas()
+{
+    scene->clearTextures();
+}
+
+void Widget::removeTextures()
+{
+    scene->clear();
+    listWidget->clear();
+    listWidget->update();
 }
 
 void Widget::createNewImage()

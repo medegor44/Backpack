@@ -1,5 +1,7 @@
 #include "scene.h"
 
+#include <utility>
+
 Scene::Scene(const QRectF sceneRect, QObject *parent)
     : QGraphicsScene(sceneRect, parent)
 {
@@ -15,7 +17,7 @@ Scene::Scene(const QRectF sceneRect, QObject *parent)
     for(AlgoBase *a : algorithms) {
         connect(a, SIGNAL(done(bool)), this, SLOT(changeSceneRect(bool)));
         connect(a, SIGNAL(done(QList<QGraphicsPixmapItem*>)),
-                this, SIGNAL(finished(QList<QGraphicsPixmapItem*>)));
+                this, SIGNAL(returnItems(QList<QGraphicsPixmapItem*>)));
     }
 }
 
@@ -38,6 +40,33 @@ void Scene::startAlgorythm(int index)
 void Scene::setUnsetSaveMode(bool m)
 {
     save = m;
+}
+
+void Scene::clearTextures()
+{
+    QList<QGraphicsItem *> textures = items();
+    QList<QGraphicsPixmapItem *> returnedItems;
+
+    for (auto i = textures.begin(); i != textures.end(); i++) {
+        // Создаем копии всех текстур
+        QGraphicsPixmapItem *item = new QGraphicsPixmapItem();
+        memccpy(item, *i, 1, sizeof(QGraphicsPixmapItem));
+        returnedItems.push_back(item);
+
+        // Удаляем текстуры с атласа
+        removeItem(*i);
+    }
+
+    // Удаляем все изображения, которые могли сохранитья в алгоритмах
+    for (AlgoBase *a : algorithms)
+        a->clearTexturesList();
+
+    // Возвращаем в список изображения
+    emit returnItems(returnedItems);
+
+    // Освобождаем память от копий
+    for (QGraphicsPixmapItem *item : returnedItems)
+        delete item;
 }
 
 Scene::~Scene()
