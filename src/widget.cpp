@@ -9,12 +9,18 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
     createMenu();
 
     connect(checkBox, SIGNAL(stateChanged(int)), scene, SLOT(setMode(int)));
+
     connect(dialog, SIGNAL(accepted()), this, SLOT(createNewImage()));
+
     connect(startAlogButton, SIGNAL(clicked()), this, SLOT(startAlgo()));
+
     connect(addAll, SIGNAL(clicked()), this, SLOT(addAllImages()));
+
     connect(scene, SIGNAL(returnItems(QList<QGraphicsPixmapItem*>)),
             listWidget, SLOT(addReturnedItems(QList<QGraphicsPixmapItem*>)));
+
     connect(clearButton, SIGNAL(clicked(bool)), this, SLOT(clearAtlas()));
+
     connect(removeButton, SIGNAL(clicked(bool)), this, SLOT(removeTextures()));
 }
 

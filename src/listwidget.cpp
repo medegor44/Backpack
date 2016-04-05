@@ -48,7 +48,10 @@ void ListWidget::addReturnedItems(QList<QGraphicsPixmapItem *> items)
         for (QGraphicsPixmapItem *item : items) { // перебор всех элементов
                 addImage(item->pixmap());
                 items.removeOne(item);
+                delete item;
         }
+
+    qDebug("Count of items = %d", count());
 }
 
 bool ListWidget::isContain(QPixmap pix)

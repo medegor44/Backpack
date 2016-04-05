@@ -49,9 +49,9 @@ void Scene::clearTextures()
 
     for (auto i = textures.begin(); i != textures.end(); i++) {
         // Создаем копии всех текстур
-        QGraphicsPixmapItem *item = new QGraphicsPixmapItem();
-        memccpy(item, *i, 1, sizeof(QGraphicsPixmapItem));
-        returnedItems.push_back(item);
+//        QGraphicsPixmapItem *item = new QGraphicsPixmapItem();
+//        memccpy(item, dynamic_cast<QGraphicsPixmapItem *>(*i), 1, sizeof(QGraphicsPixmapItem));
+        returnedItems.push_back(dynamic_cast<QGraphicsPixmapItem *>(*i));
 
         // Удаляем текстуры с атласа
         removeItem(*i);
@@ -65,8 +65,8 @@ void Scene::clearTextures()
     emit returnItems(returnedItems);
 
     // Освобождаем память от копий
-    for (QGraphicsPixmapItem *item : returnedItems)
-        delete item;
+//    for (QGraphicsPixmapItem *item : returnedItems)
+//        delete item;
 }
 
 Scene::~Scene()
