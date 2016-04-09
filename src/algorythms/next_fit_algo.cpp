@@ -50,6 +50,10 @@ void NextFitAlgo::start()
         }
     }
 
+#ifdef TEST
+    cheackArea();
+#endif
+
     if(m == mode::MinimalAtlas)
         emit done(true);
     else

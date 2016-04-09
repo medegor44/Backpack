@@ -27,10 +27,10 @@ private:
     Level *getBestLevel(QGraphicsPixmapItem *item);
     void reset();
 
-    QList <Level *> levels;
+    QList<Level *> levels;
 
 public:
     BestFitAlgo(QGraphicsScene *parent);
     virtual void start();
-    ~BestFitAlgo(){ reset(); }
+    ~BestFitAlgo();
 };

@@ -109,7 +109,8 @@ void SquareAlgo::start()
 
     std::sort(textures.begin(), textures.end(),
               [](QGraphicsPixmapItem *p1, QGraphicsPixmapItem *p2) {
-        return p1->pixmap().width() > p2->pixmap().width();
+        return std::max(p1->pixmap().width(), p1->pixmap().height()) >
+                std::max(p2->pixmap().width(), p2->pixmap().height());
     });
 
     for (QGraphicsPixmapItem *picture : textures) {
@@ -119,6 +120,11 @@ void SquareAlgo::start()
         }
     }
 
+#ifdef TEST
+    cheackArea();
+#endif
+
     emit done(blackList);
+
     reset();
 }

@@ -50,7 +50,7 @@ void BestFitAlgo::reset()
     for(Level *l : levels)
         delete l;
     levels.clear();
-//    textures.clear();
+
     blackList.clear();
 }
 
@@ -96,9 +96,19 @@ void BestFitAlgo::start()
         }
     }
 
+#ifdef TEST
+    cheackArea();
+#endif
+
     if(m == mode::MinimalAtlas)
         emit done(true);
     else
         emit done(blackList);
+
+    reset();
+}
+
+BestFitAlgo::~BestFitAlgo()
+{
     reset();
 }

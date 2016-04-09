@@ -3,9 +3,11 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
-#include <list>
+#include <QDebug>
 
 enum mode { StaticAtlas, MinimalAtlas };
+
+#define TEST
 
 class AlgoBase : public QObject
 {
@@ -17,6 +19,11 @@ protected:
     QList<QGraphicsPixmapItem *> textures;
     QList<QGraphicsPixmapItem *> blackList;
     mode m;
+
+#ifdef TEST
+    int area;
+    void cheackArea();
+#endif
 
 signals:
     void done(bool ok);
@@ -31,8 +38,7 @@ public:
     int getMaxAtlasSide();
     void saveImages(QList<QGraphicsItem *> items);
 
-    inline void clearTexturesList()
-    { textures.clear(); }
+    void clearTexturesList();
 
     virtual void start() = 0;
 

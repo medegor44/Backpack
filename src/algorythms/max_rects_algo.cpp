@@ -111,11 +111,14 @@ void MaxRectsAlgo::start()
     }
 
 //    rectangles.clear();
-
+#ifdef TEST
+    cheackArea();
+#endif
     if (m == mode::MinimalAtlas)
         emit done(true);
     else
         emit done(blackList);
+
 
     reset();
 }
@@ -166,6 +169,7 @@ void MaxRectsAlgo::makeUnique()
 void MaxRectsAlgo::reset()
 {
     rectangles.clear();
+
     blackList.clear();
 //    textures.clear();
 }

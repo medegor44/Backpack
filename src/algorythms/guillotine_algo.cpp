@@ -101,6 +101,9 @@ void GuillotineAlgo::start()
         }
     }
 
+#ifdef TEST
+    cheackArea();
+#endif
     if(m == mode::MinimalAtlas)
         emit done(true);
     else
@@ -116,7 +119,4 @@ void GuillotineAlgo::reset()
 
     rects.clear();
     blackList.clear();
-//    textures.clear();
-
-    //textures.clear();
 }
