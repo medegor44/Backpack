@@ -99,10 +99,10 @@ void ListWidget::startDrag(Qt::DropActions supportedActions)
     data->setData("Picture", arr);
     drag->setMimeData(data);
     drag->setPixmap(pic); // установка картинки на курсор
+    // установка курсора на цент картинки
     drag->setHotSpot(QPoint(pic.width()/2, pic.height()/2));
-    // установка координаты курсора на картинке
 
     if(drag->exec(Qt::MoveAction) == Qt::MoveAction)
-        delete takeItem(row(item));
     // если совершилось перетаскивание, то удалить элемент из виджета
+        delete takeItem(row(item));
 }

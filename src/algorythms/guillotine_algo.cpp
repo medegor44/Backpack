@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-// Описание методов класса Rect
+/// Описание методов класса Rect
 Rect::Rect(QRectF rect)
 {
     this->rect = rect;
@@ -37,7 +37,6 @@ Rect *Rect::placeHere(QGraphicsPixmapItem *item)
                                rect.height()));
 
         rect.setWidth(w);
-        //rect.setHeight(rect.height() - h);
         rect.setY(item->y() + h);
     } else {
         newRect = new Rect(QRectF(
@@ -47,20 +46,17 @@ Rect *Rect::placeHere(QGraphicsPixmapItem *item)
                                rect.height() - h));
 
         rect.setHeight(h);
-        //rect.setWidth(rect.width() - w);
         rect.setX(item->x() + w);
     }
-
-    //qDebug() << rect;
 
     return newRect;
 }
 
-// Опиание методов класса GuillotineAlgo
-
+/// Опиание методов класса GuillotineAlgo
 GuillotineAlgo::GuillotineAlgo(QGraphicsScene *parent)
     : AlgoBase(parent)
 {}
+
 Rect *GuillotineAlgo::getBestRect(QGraphicsPixmapItem *item)
 {
     Rect *bestRect = nullptr;
@@ -78,10 +74,12 @@ Rect *GuillotineAlgo::getBestRect(QGraphicsPixmapItem *item)
 void GuillotineAlgo::start()
 {
     atlasRect = parent->sceneRect();
+
     std::sort(textures.begin(), textures.end(),
               [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
         return p->pixmap().height() > p1->pixmap().height();
     });
+
     rects.push_back(new Rect(atlasRect));
 
     for(auto it = textures.begin(); it != textures.end(); ++it) {
@@ -104,6 +102,7 @@ void GuillotineAlgo::start()
 #ifdef TEST
     cheackArea();
 #endif
+
     if(m == mode::MinimalAtlas)
         emit done(true);
     else

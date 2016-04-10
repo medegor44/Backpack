@@ -10,21 +10,23 @@ void NextFitAlgo::reset()
 {
     currentPos = QPointF();
     blackList.clear();
-//    textures.clear();
 }
 
 void NextFitAlgo::start()
 {
     atlasRect = parent->sceneRect();
+
     std::sort(textures.begin(), textures.end(),
               [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
         return p->pixmap().height() > p1->pixmap().height();
     });
+
     double currentHeight = 0;
 
     for(auto it = textures.begin(); it != textures.end(); ++it) {
         if(atlasRect.width() - currentPos.x() >= (*it)->pixmap().width() &&
                 atlasRect.height() - currentHeight >= (*it)->pixmap().height()) {
+        // Помещаем изображение на текущий уровень, если это возможно
             (*it)->setPos(currentPos);
 
             if((*it)->pixmap().height() + currentPos.y() > currentHeight)
@@ -32,6 +34,7 @@ void NextFitAlgo::start()
 
             currentPos.setX(currentPos.x() + (*it)->pixmap().width());
         } else if(atlasRect.height() - currentHeight >= (*it)->pixmap().height()) {
+            // Помещаем изображение на следующий уровень, если это возможно
             currentPos.setY(currentHeight);
             currentPos.setX(0);
 

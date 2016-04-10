@@ -34,10 +34,10 @@ public:
     void start() override;
 
 private:
-    Rectangle getBestRect(QRectF rect);
-    void intersectRects(QRectF rect);
-    void makeUnique();
-    void reset();
+    Rectangle getBestRect(QRectF rect); // Поиск лучшего прямоугольника
+    void intersectRects(QRectF rect); // Пересечение с прямоугольниками из списка
+    void makeUnique(); // Удаление лишних прямоугольников
+    void reset(); // Сброс состояния алгоритма
     QList<Rectangle> rectangles;
 };
 

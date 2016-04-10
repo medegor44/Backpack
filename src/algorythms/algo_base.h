@@ -7,8 +7,6 @@
 
 enum mode { StaticAtlas, MinimalAtlas };
 
-#define TEST
-
 class AlgoBase : public QObject
 {
     Q_OBJECT

@@ -10,14 +10,15 @@ private:
 
 public:
     Rect(QRectF rect);
-    Rect *placeHere(QGraphicsPixmapItem *item);
+
     // Упаковка изображения в прямоугольник и разделение прямоугольника
+    Rect *placeHere(QGraphicsPixmapItem *item);
 
-    bool isPlaced(QGraphicsPixmapItem *item);
     // Проверка на возможность упаковки
+    bool isPlaced(QGraphicsPixmapItem *item);
 
-    double score(QGraphicsPixmapItem *item);
     // Получение площади, которая останется после упаковки
+    double score(QGraphicsPixmapItem *item);
 };
 
 class GuillotineAlgo : public AlgoBase
@@ -26,13 +27,17 @@ class GuillotineAlgo : public AlgoBase
 
 private:
     QList <Rect *> rects; // Список прямоугольников
-    Rect *getBestRect(QGraphicsPixmapItem *item);
+
     // Поиск лучшего прямоугольника в списке
+    Rect *getBestRect(QGraphicsPixmapItem *item);
+
     void reset(); // Сброс состояния алгоритма
 
 public:
     GuillotineAlgo(QGraphicsScene *parent);
+
     virtual void start(); // Запуск алгоритма
+
     ~GuillotineAlgo() { reset(); }
 };
 

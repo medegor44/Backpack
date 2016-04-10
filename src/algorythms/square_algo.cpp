@@ -37,6 +37,8 @@ QPointF SquareAlgo::getBestPos(QRectF pictureRect)
         if (rect.isNull() || isIntersects(pictureRect))
             continue;
 
+        /* Поиск точки такой, что установленное в эту позицию изображение
+         * даст прямоугольник с минимальной разностью смежных сторон */
         if (abs(rect.width() - rect.height()) <= abs(bestRect.width() - bestRect.height())
                 || bestRect.isNull() || bestRect == boundingRect || bestPoint.x() < 0) {
             bestRect = rect;

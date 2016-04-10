@@ -49,8 +49,6 @@ void Scene::clearTextures()
 
     for (auto i = textures.begin(); i != textures.end(); i++) {
         // Создаем копии всех текстур
-//        QGraphicsPixmapItem *item = new QGraphicsPixmapItem();
-//        memccpy(item, dynamic_cast<QGraphicsPixmapItem *>(*i), 1, sizeof(QGraphicsPixmapItem));
         returnedItems.push_back(dynamic_cast<QGraphicsPixmapItem *>(*i));
 
         // Удаляем текстуры с атласа
@@ -63,10 +61,6 @@ void Scene::clearTextures()
 
     // Возвращаем в список изображения
     emit returnItems(returnedItems);
-
-    // Освобождаем память от копий
-//    for (QGraphicsPixmapItem *item : returnedItems)
-//        delete item;
 }
 
 Scene::~Scene()
@@ -113,16 +107,7 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{/*
-    QGraphicsItem *item;
-    if((item = itemAt(event->scenePos(), QTransform()))) {
-        // Если существует элемент, на который кликнули
-
-        startDragging = event->scenePos();
-        // Сохраняем позицию клика относительно сцены
-
-    }*/
-
+{
     qDebug() << "Scene's rectangle" << sceneRect();
 
     QGraphicsScene::mousePressEvent(event);
@@ -166,19 +151,12 @@ void Scene::startDrag(QPointF start)
 }
 
 void Scene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
-{/*
-    if(event->mimeData()->hasFormat("Picture")) {
-        event->accept();
-//        relativePoint = QPointF();
-    } else
-        event->ignore();*/
-
+{
     QGraphicsScene::dragEnterEvent(event);
 }
 
 bool Scene::isInRange(QPointF p)
 {
-//    return !(point.x() < 0 || point.y() < 0) || !(point.x() > width() || point.y() > height());
     return (p.x() >= 0 && p.y() >= 0 && p.x() < width() && p.y() < height());
 }
 
@@ -217,6 +195,4 @@ void Scene::dropEvent(QGraphicsSceneDragDropEvent *event)
         event->accept();
     } else
         event->ignore();
-
-   // relativePoint = QPointF();
 }

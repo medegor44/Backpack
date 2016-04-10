@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 
+/// Описание методов класса Rectangle
+
 Rectangle::Rectangle(double x, double y, double w, double h)
     : QRectF(x, y, w, h)
 {
@@ -65,7 +67,7 @@ QList<Rectangle> operator-(const Rectangle &rect1, const Rectangle &rect2)
                         )
                     );
 
-    // Удавлем посторонние прямоугольники
+    // Удаляем посторонние прямоугольники
     for (auto r : rects)
         if (!rect1.intersects(r) || !r.isValid() || r.isNull())
             rects.removeOne(r);
@@ -81,6 +83,7 @@ MaxRectsAlgo::MaxRectsAlgo(QGraphicsScene *parent)
 void MaxRectsAlgo::start()
 {
     atlasRect = parent->sceneRect();
+
     std::sort(textures.begin(), textures.end(),
               [](QGraphicsPixmapItem *p, QGraphicsPixmapItem *p1) {
         return p->pixmap().height() > p1->pixmap().height();
@@ -91,7 +94,7 @@ void MaxRectsAlgo::start()
     for (auto i = textures.begin(); i != textures.end(); ++i) {
         Rectangle bestRect = getBestRect((*i)->pixmap().rect());
 
-        if (bestRect.isNull()) {
+        if (bestRect.isNull()) { // Лучший прямоугольник не найден
             if (m == mode::MinimalAtlas) {
                 reset();
                 emit done(false);
@@ -101,16 +104,21 @@ void MaxRectsAlgo::start()
             blackList.push_back(*i);
             parent->removeItem(*i);
         } else {
+            // Помещаем изображение в верхний левый угол прямоугольника.
             (*i)->setPos(bestRect.topLeft());
+
             qDebug() << "Item's pos =" << (*i)->pos();
+
             QRectF imgRect = (*i)->pixmap().rect();
             imgRect.moveTopLeft((*i)->pos());
+
+            // Пересекаем все прямоугольники с окаймляющим прямоугольником изображения
             intersectRects(imgRect);
+            // Удаляем лишние прямоугольники
             makeUnique();
         }
     }
 
-//    rectangles.clear();
 #ifdef TEST
     cheackArea();
 #endif
@@ -153,11 +161,6 @@ void MaxRectsAlgo::intersectRects(QRectF rect)
 
 void MaxRectsAlgo::makeUnique()
 {
-//    for (int i = 0; i < rectangles.size(); i++)
-//        for (int j = i + 1; j < rectangles.size(); j++)
-//            if (rectangles[i].contains(rectangles[j]))
-//                rectangles.removeAt(j);
-
     for (auto i = rectangles.begin(); i != rectangles.end(); ++i)
         for (auto j = i + 1; j != rectangles.end(); )
             if (i->contains(*j))
@@ -171,5 +174,4 @@ void MaxRectsAlgo::reset()
     rectangles.clear();
 
     blackList.clear();
-//    textures.clear();
 }

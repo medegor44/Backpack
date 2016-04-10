@@ -20,7 +20,6 @@ void AlgoBase::cheackArea()
 AlgoBase::AlgoBase(QGraphicsScene *parent)
     : QObject(parent)
 {
-//    atlasRect = parent->sceneRect();
     this->parent = parent;
 #ifdef TEST
     area = 0;

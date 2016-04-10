@@ -23,7 +23,6 @@ void Level::placeHere(QGraphicsPixmapItem *item)
     item->setPos(rect.topLeft()); // Установить изображение на позицию прямоугольника
 
     rect.setX(rect.x() + item->pixmap().width()); // Сдвинуть по X
-    //rect.setWidth(rect.width() - item->pixmap().width()); // Уменьшить размер
 }
 
 BestFitAlgo::BestFitAlgo(QGraphicsScene *parent)
@@ -71,18 +70,18 @@ void BestFitAlgo::start()
             if((*it)->pixmap().width() <= atlasRect.width() &&
                     (*it)->pixmap().height() <= atlasRect.height()) {
                 // Изображение умаещается в атлас
+
+                // Создать новый уровень
                 Level *level = new Level(QRectF(atlasRect.x(),
                                                 atlasRect.y(),
                                                 atlasRect.width(),
                                                 (*it)->pixmap().height()));
-                // Создать новый уровень
 
                 level->placeHere(*it); // Поместить изображение на уровень
                 levels.push_back(level); // Занести в список
 
-                atlasRect.setY(atlasRect.y() + (*it)->pixmap().height());
-                //atlasRect.setHeight(atlasRect.height() - (*it)->pixmap().height());
                 // Изменить размеры и положение атласа
+                atlasRect.setY(atlasRect.y() + (*it)->pixmap().height());
             } else { // Изображение не умещается в атлас
                 if(m == mode::MinimalAtlas) {
                     reset();

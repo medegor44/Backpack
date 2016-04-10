@@ -32,7 +32,6 @@ private:
     QRectF dropPlace;
     AlgoBase *algorithms[5];
 
-
     bool mode;
 
     // Режим сохранения изображения
